@@ -1,6 +1,6 @@
 # 开源 PCB 设计流程：技能 + 工具包 + 门禁
 
-资料与实测截至 2026-10-10。依据是 `hardware-agent-research/ANALYSIS.zh-CN.md`（下称“研究报告”）的第 6 节，以及 S3 AMOLED 复刻工程的实践。本文是总体说明；agent 实际执行的步骤写在 `skills/*/SKILL.md` 和各自的 `references/` 里。
+资料与实测截至 2026-10-10。依据是一份 AI 与 EDA 工具调研报告（`ANALYSIS.zh-CN.md`，不在本仓库，下称“研究报告”）的第 6 节，以及 S3 AMOLED 复刻工程的实践。本文是总体说明；agent 实际执行的步骤写在 `skills/*/SKILL.md` 和各自的 `references/` 里。
 
 ## 1. 结论：可以，但各阶段的成熟度不同
 
@@ -86,7 +86,7 @@ pcb-pipeline/                     （本仓库）
 ├── sim/                     *.cir、benches.toml
 ├── pcbkit/                  固定版本的工具
 ├── pyproject.toml、uv.lock   Python 依赖组：design（SKiDL）、routing、extras（KiKit、iBOM、PcbDraw）
-└── .gitea/workflows/        CI：门禁；推送 v* 标签时生成制造包
+└── .github/workflows/       CI（GitHub Actions）：门禁；推送 v* 标签时生成制造包
 ```
 
 ## 3. 研究报告的五条原则怎样落实
@@ -147,8 +147,8 @@ pcb-pipeline/                     （本仓库）
   - 布线器失败时仍复制旧输出（真实踩坑）→ 促成了 `route.py` 的事务化；
   - 拼板连接桥参数写反、板子悬空 → 拼板 DRC 照样干净（真实踩坑）→ 促成了“拼板外框只有一块”的检查。
 - **没有验证的**：
-  - CI 工作流没有在真实的 Gitea runner 上跑过（S3 的工作流也是）；
-  - Codex 能否加载这些技能，未实测（格式是通用的 SKILL.md）；
+  - CI 工作流还没有在 GitHub Actions 上实际跑过；
+  - Codex 端的端到端设计验证尚未做；2026-10-11 已确认十个技能可被发现和读取；
   - skill-creator 的触发评测和 A/B 评测没有做；
   - 多页、层次化的原理图生成（sch_gen 目前只出单页，页面按 A4 到 A1 自动放大）；
   - 4 层以上的板子用新流程从零布线（S3 是接管，不是用新流程重布）。

@@ -2,7 +2,7 @@
 vendored tools (pcbkit/) of a project to this version.
 
   new_project.py <dir> --name usb-ldo --title "USB-C 3.3 V LDO" [--layers 2] [--size 30x20]
-                 [--mode code|schematic] [--license CERN-OHL-S-2.0]
+                 [--mode code|schematic] [--license MIT]
   new_project.py <dir> --adopt --pcb board.kicad_pcb --sch board.kicad_sch --name x
                  adds pcb.toml, docs/, checks/, sim/, design/intent.toml, parts/ and pcbkit/ to an existing
                  KiCad project without touching its design files (existing files are never overwritten)
@@ -46,7 +46,7 @@ def render(text, values):
 def copy_template(dest, values, overwrite, adopt=False):
     written, kept = [], []
     has_readme = any(dest.glob('README*'))
-    has_ci = any((dest / d).glob('*.y*ml') for d in ('.gitea/workflows', '.github/workflows', '.forgejo/workflows') if (dest / d).is_dir())
+    has_ci = any(dest.glob('.*/workflows/*.y*ml'))     # any forge's Actions workflows
     for src in sorted(TEMPLATE.rglob('*')):
         if src.is_dir():
             continue
@@ -54,7 +54,7 @@ def copy_template(dest, values, overwrite, adopt=False):
         r = rel.as_posix()
         if values['mode'] != 'code' and r == 'design/board.py':
             continue
-        if adopt and ((r == 'README.md' and has_readme) or (r.startswith('.gitea/') and has_ci) or r.startswith('layout/')):
+        if adopt and ((r == 'README.md' and has_readme) or (r.startswith('.github/') and has_ci) or r.startswith('layout/')):
             kept.append(r + ' (skipped: existing project)'); continue
         out = dest / rel
         if out.exists() and not overwrite:
@@ -74,7 +74,7 @@ def main():
     ap.add_argument('dir')
     ap.add_argument('--name'); ap.add_argument('--title'); ap.add_argument('--layers', type=int, default=2)
     ap.add_argument('--size', default='30x20', help='outline WxH in mm'); ap.add_argument('--mode', default='code', choices=['code', 'schematic'])
-    ap.add_argument('--license', default='CERN-OHL-S-2.0')
+    ap.add_argument('--license', default='MIT')
     ap.add_argument('--adopt', action='store_true'); ap.add_argument('--pcb'); ap.add_argument('--sch')
     ap.add_argument('--update-kit', action='store_true')
     a = ap.parse_args()

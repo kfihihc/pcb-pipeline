@@ -6,7 +6,7 @@ name = "usb-ldo"
 title = "USB-C 3.3 V LDO demo"
 revision = "0.1.0"                    # 工程样 0.x，可量产从 1.0 起；发布时打 git 标签 v<revision>
 kicad = "10.0.6"                   # 与 CI 镜像 kicad/kicad:<版本> 一致
-license = "CERN-OHL-S-2.0"
+license = "MIT"
 pcb = "hw/usb-ldo.kicad_pcb"
 sch = "hw/usb-ldo.kicad_sch"
 

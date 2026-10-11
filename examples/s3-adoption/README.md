@@ -1,6 +1,6 @@
 # 示例：接管已有工程（S3 AMOLED 复刻）
 
-把 pcb-pipeline 的门禁套到已有的 KiCad 工程上，不改任何设计文件。对象是 `/home/moyu/idea/s3-amoled-175-kicad`（v0.2.1，KiCad 10.0.6，4 层，202 个器件）。
+把 pcb-pipeline 的门禁套到已有的 KiCad 工程上，不改任何设计文件。对象是 S3 AMOLED 复刻工程（ESP32-S3-Touch-AMOLED-1.75C 的 KiCad 复刻，另一个仓库；v0.2.1，KiCad 10.0.6，4 层，202 个器件），下文记作 `<S3 仓库>`。
 
 本目录只有配置，没有动 S3 仓库：
 
@@ -10,7 +10,7 @@
 ## 怎样套用
 
 ```bash
-P=/home/moyu/idea/pcb-pipeline
+P=<pcb-pipeline 仓库>
 python3 $P/skills/pcb-pipeline/scripts/new_project.py <S3 仓库> --adopt \
     --pcb s3-amoled-175.kicad_pcb --sch s3-amoled-175.kicad_sch --name s3-amoled-175
 cp $P/examples/s3-adoption/pcb.toml <S3 仓库>/
@@ -18,7 +18,7 @@ cp $P/examples/s3-adoption/checks/metrics.toml <S3 仓库>/checks/
 cd <S3 仓库> && python3 pcbkit/gate.py
 ```
 
-`--adopt` 不覆盖已有文件，也不添加 README、CI 工作流和 `layout/` 模板，因为 S3 已经有 `.gitea/workflows/hw-checks.yml`。决定改用 pcbkit 门禁后，再把 CI 的命令换成 `python3 pcbkit/gate.py`。这一步要在 S3 仓库里开分支做，作为单独的变更。
+`--adopt` 不覆盖已有文件，也不添加 README、CI 工作流和 `layout/` 模板，因为 S3 已经有自己的 CI 工作流（`hw-checks.yml`）。决定改用 pcbkit 门禁后，再把 CI 的命令换成 `python3 pcbkit/gate.py`。这一步要在 S3 仓库里开分支做，作为单独的变更。
 
 ## 2026-10-10 在副本上的验证
 

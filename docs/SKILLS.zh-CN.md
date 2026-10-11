@@ -2,7 +2,7 @@
 
 这 10 个技能都写成通用的 SKILL.md（Agent Skills 格式），装在 `~/.claude/skills/` 和 `~/.codex/skills/`（`./install.sh`）。平时不用记技能名：在 Claude Code 或 Codex 里直接说要做的事，agent 会按描述自动选技能；也可以点名，例如“用 pcb-review 看一下这块板”。
 
-本文的流程图是 Mermaid 代码，Gitea、GitHub、Typora、Obsidian 会直接显示；其他查看器可以看 `docs/diagrams/` 下同名的 SVG（`python3 tools/diagrams.py --out docs/diagrams docs/*.md` 重新生成）。
+本文的流程图是 Mermaid 代码，GitHub、Typora、Obsidian 会直接显示；其他查看器可以看 `docs/diagrams/` 下同名的 SVG（`python3 tools/diagrams.py --out docs/diagrams docs/*.md` 重新生成）。
 
 ## 1. 全景
 
@@ -80,7 +80,7 @@ sequenceDiagram
   actor U as 你
   participant A as agent
   participant K as pcbkit
-  participant C as CI（Gitea Actions）
+  participant C as CI（GitHub Actions）
   U->>A: 提出改动（例如“C2 再靠近 U1 一点”）
   A->>A: 开分支 hw/layout-c2，写变更单 docs/changes/NNNN.toml（原因、范围、验收）
   A->>K: 用脚本修改（place / preroute / route / board_setup）

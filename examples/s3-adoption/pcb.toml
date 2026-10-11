@@ -1,4 +1,4 @@
-# pcb-pipeline adoption of the S3 AMOLED replica (/home/moyu/idea/s3-amoled-175-kicad), KiCad 10.0.6.
+# pcb-pipeline adoption of the S3 AMOLED replica (a separate repository: ESP32-S3-Touch-AMOLED-1.75C in KiCad 10.0.6).
 # Copy pcb.toml and checks/metrics.toml into the S3 repository root and vendor pcbkit/ with
 #   new_project.py <s3> --adopt --pcb s3-amoled-175.kicad_pcb --sch s3-amoled-175.kicad_sch --name s3-amoled-175
 # (it keeps existing files), then run python3 pcbkit/gate.py. Verified on a copy, 2026-10-10.

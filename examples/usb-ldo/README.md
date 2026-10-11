@@ -16,7 +16,7 @@
 >
 > 最终门禁 8 项全过；`release/` 的包标为 REVIEW ONLY，因为它不是从 git 提交生成的。包里另有自拼的 2×1 拼板（`fab/panel/`）、交互式 BOM 和 KiCanvas 页面。
 
-usb-ldo：用 pcb-pipeline 流程管理的 KiCad 10.0.6 工程（pcbkit 0.2.0）。许可：CERN-OHL-S-2.0。
+usb-ldo：用 pcb-pipeline 流程管理的 KiCad 10.0.6 工程（pcbkit 0.2.0）。许可：MIT。
 
 | 位置 | 内容 |
 | --- | --- |

@@ -5,7 +5,7 @@ description: KiCad 电路板设计总流程（开源、可审计、agent 事务�
 
 # PCB 设计流程（总控）
 
-把一块板子的设计拆成可检查的阶段：每一步都有文本形式的产物，每次改动都要过确定性门禁，人只在关键节点签字。来源是 `hardware-agent-research/ANALYSIS.zh-CN.md` 的建议和 S3 AMOLED 复刻工程的实践。本技能定义阶段、工程结构和改动规则；各阶段的具体做法在对应技能里。
+把一块板子的设计拆成可检查的阶段：每一步都有文本形式的产物，每次改动都要过确定性门禁，人只在关键节点签字。来源是一份 AI 与 EDA 工具调研报告的建议和 S3 AMOLED 复刻工程的实践。本技能定义阶段、工程结构和改动规则；各阶段的具体做法在对应技能里。
 
 ## 何时用
 
@@ -63,7 +63,7 @@ flowchart LR
 
 ```bash
 S=<本技能目录>          # Claude Code 会给出 "Base directory for this skill"
-python3 $S/scripts/new_project.py ~/idea/<板名> --name <板名> --title "<标题>" --size 30x20 --layers 2
+python3 $S/scripts/new_project.py <工程目录> --name <板名> --title "<标题>" --size 30x20 --layers 2
 python3 $S/scripts/new_project.py <已有工程> --adopt --pcb x.kicad_pcb --sch x.kicad_sch --name x   # 接管：不动设计文件
 python3 $S/scripts/new_project.py <工程> --update-kit    # 升级工程内 pcbkit/（单独分支、单独提交）
 python3 pcbkit/gate.py                                    # 在工程目录里：门禁
@@ -86,7 +86,7 @@ python3 pcbkit/extras.py status                           # 可选输出（iBOM�
 - **必须停下来问人**：需求冲突（数据手册保证值低于需求）、放宽阈值或加例外、改动超出变更单范围或要解锁关键项、安全合规相关、要花钱或对外发布、拼板方式（`[outputs].panel = "ask"` 时，自己拼还是交给板厂）。
 - **环境**：只用系统 KiCad（先 `kicad-cli version`）；Python 依赖用 uv，非交互 shell 先 `export PATH="$HOME/.local/bin:$PATH"`；缺系统包请用户用 apt 装，不自行下载私有副本。KiCad 10 与 Debian Python 3.14 的已知问题见 `references/kicad10-notes.md`，pcbkit 已处理，自写脚本时要注意。
 - **可选输出**：`pcb.toml` 的 `[outputs]` 控制 iBOM、KiCanvas、PcbDraw、KiKit 拼板和 kicad-happy EMC 预检，都不进门禁，工具没装时跳过并提示。前三个 Python 工具装在工程 uv 环境的 `extras` 组（`uv sync --group extras`），由 `pcbkit/extras.py` 先加载 kicad_compat 再调用；`kicanvas.js` 随 pcbkit 固定版本入库。不引入 KiBot（AGPL，自管依赖，与门禁和发布重叠）。
-- **CI**：镜像用 `kicad/kicad:<pcb.toml 里的版本>`；模板的 `.gitea/workflows/hw-gate.yml` 与 GitHub Actions 语法相同。
+- **CI**：镜像用 `kicad/kicad:<pcb.toml 里的版本>`；模板带 `.github/workflows/hw-gate.yml`（GitHub Actions）。
 
 ## 选哪个技能
 

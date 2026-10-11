@@ -181,7 +181,7 @@ fi
 
 # ---------------------------------------------------------------- documentation diagrams
 if [ -f "$CACHE/mermaid/mermaid.min.js" ] && { [ -n "${CHROME:-}" ] || ls "$HOME"/.cache/ms-playwright/chromium_headless_shell-*/chrome-headless-shell-linux64/chrome-headless-shell >/dev/null 2>&1; }; then
-  run diagrams_render 0 python3 "$ROOT/tools/diagrams.py" --check "$ROOT/README.zh-CN.md" "$ROOT/PIPELINE.zh-CN.md" "$ROOT/docs/SKILLS.zh-CN.md" "$SK"/*/SKILL.md
+  run diagrams_render 0 python3 "$ROOT/tools/diagrams.py" --check "$ROOT/README.md" "$ROOT/README.zh-CN.md" "$ROOT/PIPELINE.zh-CN.md" "$ROOT/docs/SKILLS.zh-CN.md" "$SK"/*/SKILL.md
 else
   skip diagrams_render "no mermaid.min.js in $CACHE/mermaid or no headless Chromium"
 fi

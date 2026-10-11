@@ -1,6 +1,6 @@
 ---
 name: pcb-gate
-description: KiCad 工程的合并门禁和项目指标：运行 pcbkit/gate.py，共 8 项确定性检查（ERC、DRC 加原理图一致性、规则哨兵、铺铜复算、连接意图/引脚焊盘/BOM 字段/选料登记、版图指标、仿真断言、生成器复现）；解读失败并定位到器件、网络或文件；编写 checks/metrics.toml 的声明式指标和阈值（去耦距离、电源线宽、平面完整性、过孔、长度、禁区内异网铜等）；配置 Gitea/GitHub CI；用 board_diff.py 对比版本、核对变更范围；接管已有工程时补配置。凡是问“检查一下”“能合并吗”“CI 为什么红”“DRC/ERC 报错怎么办”“加个检查或指标”“对比两个版本改了什么”，都用本技能。Use for running/configuring the hardware merge gate, metrics thresholds, CI, and board revision diffs.
+description: KiCad 工程的合并门禁和项目指标：运行 pcbkit/gate.py，共 8 项确定性检查（ERC、DRC 加原理图一致性、规则哨兵、铺铜复算、连接意图/引脚焊盘/BOM 字段/选料登记、版图指标、仿真断言、生成器复现）；解读失败并定位到器件、网络或文件；编写 checks/metrics.toml 的声明式指标和阈值（去耦距离、电源线宽、平面完整性、过孔、长度、禁区内异网铜等）；配置 GitHub Actions CI；用 board_diff.py 对比版本、核对变更范围；接管已有工程时补配置。凡是问“检查一下”“能合并吗”“CI 为什么红”“DRC/ERC 报错怎么办”“加个检查或指标”“对比两个版本改了什么”，都用本技能。Use for running/configuring the hardware merge gate, metrics thresholds, CI, and board revision diffs.
 ---
 
 # 门禁：确定性检查说了算
@@ -69,7 +69,7 @@ python3 pcbkit/board_diff.py old.kicad_pcb hw/x.kicad_pcb [--scope docs/changes/
    检查程序崩溃也算失败；不适用的显示 SKIP。
 2. **写指标**（格式和可用的 kind 见 `references/metrics.md`）：每一条审查意见、每一个修好的缺陷，只要能写成数值，就写成指标。声明式写不出来的，写项目脚本 `checks/check_x.py`（`run(board_path) -> dict`），用 `kind = "script"` 引用。
 3. **例外和阈值**：种类有 `erc_allowed`、`drc_allowed`、`extra_pads_allowed`、`[bom].exempt`、`[gate].skip`；每一条在 DECISIONS 写理由，配置里的 `why` 引用编号。阈值来自需求、数据手册或上一版实测，原则是“不退步”（S3 取 v0.2 实测值）。
-4. **CI**：模板带 `.gitea/workflows/hw-gate.yml`（与 GitHub Actions 语法相同）。容器 `kicad/kicad:<pcb.toml 的版本>`，root 运行并装 python3；有 `pyproject.toml` 时装 uv 做复现检查；推送 `v*` 标签时先 `uv sync --group extras`（可选输出和自拼要用），再跑 `release.py` 上传制造包。Gitea 需要一台带 Docker 的 act_runner，首次启用要看一遍日志。
+4. **CI**：模板带 `.github/workflows/hw-gate.yml`（GitHub Actions）。容器 `kicad/kicad:<pcb.toml 的版本>`，root 运行并装 python3；有 `pyproject.toml` 时装 uv 做复现检查；推送 `v*` 标签时先 `uv sync --group extras`（可选输出和自拼要用），再跑 `release.py` 上传制造包。首次启用要看一遍运行日志。
 5. **对比与范围**：`board_diff.py` 报告器件增删、移动和换库，焊盘铜皮，走线和过孔（按网络），锁定项，铺铜，封装图形，字段，板框。加 `--scope 变更单` 后，范围之外的改动列进 `out_of_scope`，退出码 1。
 
 ## 要点与常见坑

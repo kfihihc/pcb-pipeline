@@ -2,7 +2,7 @@
 
 Every ```mermaid block is rendered with mermaid.js in headless Chromium: a block that does not parse is
 reported (exit 1). With --out, each diagram of the given files is also written as SVG, so documents can
-link an image for viewers without Mermaid support (Gitea and GitHub render the code blocks themselves).
+link an image for viewers without Mermaid support (GitHub renders the code blocks itself).
 
 usage: python3 tools/diagrams.py [--out docs/diagrams] FILE.md [...]
        python3 tools/diagrams.py --check $(git ls-files '*.md')

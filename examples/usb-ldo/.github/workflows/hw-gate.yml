@@ -1,4 +1,4 @@
-# Merge gate (Gitea/Forgejo Actions; GitHub Actions syntax: copy to .github/workflows/ for GitHub).
+# Merge gate (GitHub Actions).
 # Same checks locally: python3 pcbkit/gate.py
 name: hw-gate
 on: [push, pull_request]
@@ -20,7 +20,7 @@ jobs:
         run: pipx install uv && echo "$HOME/.local/bin" >> "$GITHUB_PATH"
       - name: Gate (ERC, DRC + parity, rules canary, zones, netlist intent, metrics, sim, reproduce)
         run: python3 pcbkit/gate.py --out reports
-      - uses: actions/upload-artifact@v3   # v3: supported by Gitea Actions
+      - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: gate-reports
@@ -44,7 +44,7 @@ jobs:
         run: uv sync --group extras || echo "no extras group, so optional outputs are skipped (see README.txt of the package)"
       - name: Fabrication package (runs the gate again; refuses on failure)
         run: python3 pcbkit/release.py
-      - uses: actions/upload-artifact@v3
+      - uses: actions/upload-artifact@v4
         with:
           name: release-package
           path: release/
