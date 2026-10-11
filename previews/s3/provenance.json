@@ -1,0 +1,20 @@
+{
+  "project": "S3 AMOLED 1.75C",
+  "revision": "v0.2.1",
+  "source_commit": "18dc7f0c475926cbdc5466f346d2b22773664457",
+  "schematic_sheets": 10,
+  "files": {
+    "adc.kicad_sch": "61f54cd5c70eb7562d43b0ae90c598a0791370f2b64d6858c9a8862ded6da5ac",
+    "aec.kicad_sch": "48803921beb33b22aba1b1baf30491b809274620ef8132f8f93b1c3b42ac78b2",
+    "codec_pa.kicad_sch": "cc87dd2d1cd717ac6f40cd089bfec98203c2a616b81682740322d53e3f7e4db9",
+    "display_imu.kicad_sch": "bdf76dec2dba9575f80a6333c217adcaad2f51910d51aa54af332405118e2653",
+    "mcu_rf.kicad_sch": "06faf50c31bb88052b7e06bd4b7c22b04634a53c3954a0e99b5a2d1c9cc0649b",
+    "microphones.kicad_sch": "114281c2de5f498c9f828bdde4a571a15605457dd2d0c038a9d137837b945f25",
+    "power_keys.kicad_sch": "9bde4dda96cd555750843332d8d1c17ee5657f8d69bc083997a5ea6abfc434a8",
+    "s3-amoled-175.kicad_pcb": "c60e22b5793b8ccb67918689cae42e0feb4b395514e07f3fd736675a17ef19dc",
+    "s3-amoled-175.kicad_pro": "df8251628338c17c800bca0d67ff1954eb146ae996c792337ad49f144c554b96",
+    "s3-amoled-175.kicad_sch": "bfba6ccfd81bb764ada7bf8b17d4e84bb3232ce8d7635ab025eca974ebb9e665",
+    "testpoints.kicad_sch": "e98d03823e9fbaf4ce5c7a42994df0e0331278819731c2c19c764d21f55ba003",
+    "usb_battery.kicad_sch": "6ccd99cec8b64eb077f7936a17898ef853ba1f3a5e1a4bd5bf4aa114c1ecc9ab"
+  }
+}
