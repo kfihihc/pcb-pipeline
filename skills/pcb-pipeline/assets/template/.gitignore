@@ -1,0 +1,22 @@
+# KiCad local state and backups
+*.kicad_prl
+*-backups/
+*.lck
+fp-info-cache
+_autosave-*
+~*
+# generated: gate reports, release packages, scratch
+reports/
+release/
+work/
+# Python
+__pycache__/
+.venv/
+# SKiDL run logs
+*.log
+*.erc
+*_sklib.py
+# datasheet text and page renders are derived (datasheet.py text/render)
+data/parts/*/pages/
+# datasheets are rarely redistributable: in public repositories keep only source.json (URL + SHA-256)
+# data/parts/*/datasheet.pdf

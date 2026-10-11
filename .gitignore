@@ -1,0 +1,7 @@
+__pycache__/
+*.pyc
+# example scratch (also ignored by the example itself)
+examples/*/.venv/
+examples/*/work/
+examples/*/reports/
+examples/*/release/

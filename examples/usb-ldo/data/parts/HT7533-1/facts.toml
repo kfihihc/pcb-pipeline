@@ -1,0 +1,135 @@
+# HT7533-1 facts, each with the page of the source PDF (data/parts/HT7533-1/datasheet.pdf).
+# Source: Holtek HT75xx-1 datasheet Rev. 2.30, March 19, 2014 (Farnell-hosted copy of the Holtek document).
+# Not used: a 2020 "HT75xx-1 Series" sheet from another maker on szlcsc.com (36 V, 8 pages) - different silicon.
+
+[part]
+mpn = "HT7533-1"
+manufacturer = "Holtek"
+lcsc = "C14289"
+datasheet = "datasheet.pdf"
+revision = "Rev. 2.30 (2014-03-19)"
+sha256 = "a7fdb0c1157b616fa4148af1715b06046d40724c567fac708c595c9d686438e5"
+
+[kicad]
+symbol = "Regulator_Linear:HT75xx-1-SOT89"
+footprint = "Package_TO_SOT_SMD:SOT-89-3"
+
+[package]
+name = "SOT89"
+page = 2
+
+[[pin]]
+number = "1"
+name = "GND"
+type = "power_in"
+page = 2
+
+[[pin]]
+number = "2"
+name = "VIN"
+type = "power_in"
+page = 2
+
+[[pin]]
+number = "3"
+name = "VOUT"
+type = "power_out"
+page = 2
+
+[[abs_max]]
+param = "Supply voltage"
+min = -0.3
+max = 33
+unit = "V"
+page = 2
+
+[[abs_max]]
+param = "Power dissipation, SOT89, Ta = 25 C"
+max = 0.5
+unit = "W"
+page = 2
+
+[[recommended]]
+param = "Input voltage"
+max = 30
+unit = "V"
+page = 5
+
+[[recommended]]
+param = "Operating temperature"
+min = -40
+max = 85
+unit = "C"
+page = 2
+
+[[characteristic]]
+param = "Output voltage"
+min = 3.201
+typ = 3.300
+max = 3.399
+unit = "V"
+conditions = "VIN = 5.3 V, IOUT = 10 mA, Ta = 25 C"
+page = 5
+
+[[characteristic]]
+param = "Output current"
+min = 70
+typ = 100
+unit = "mA"
+conditions = "VIN = 5.3 V"
+page = 5
+note = "guaranteed minimum is 70 mA, not the 100 mA of the title"
+
+[[characteristic]]
+param = "Load regulation"
+typ = 25
+max = 60
+unit = "mV"
+conditions = "VIN = 5.3 V, 1 mA <= IOUT <= 50 mA"
+page = 5
+
+[[characteristic]]
+param = "Dropout voltage"
+typ = 25
+max = 55
+unit = "mV"
+conditions = "IOUT = 1 mA"
+page = 5
+
+[[characteristic]]
+param = "Quiescent current"
+typ = 2.5
+max = 4.0
+unit = "uA"
+conditions = "no load"
+page = 5
+
+[[characteristic]]
+param = "Thermal resistance junction-ambient, SOT89"
+max = 200
+unit = "C/W"
+page = 2
+
+[[application]]
+ref = "C1"
+value = "10uF"
+note = "input capacitor, VIN to GND"
+page = 12
+
+[[application]]
+ref = "C2"
+value = "10uF"
+note = "output capacitor, VOUT to GND"
+page = 12
+
+[[layout]]
+text = "Basic circuit shows a single-point GND joining input and output capacitors at the regulator GND pin"
+page = 12
+
+[[caveat]]
+text = "The application circuit draws C1 and C2 as polarised capacitors and gives no ESR range; ceramic capacitors are common practice but not covered by the datasheet. Check stability with a load step at bring-up."
+page = 12
+
+[[caveat]]
+text = "Distributor descriptions list 30 V input and 100 mA output; the guaranteed output current is 70 mA min at VIN = 5.3 V."
+page = 5

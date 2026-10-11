@@ -1,0 +1,15 @@
+# 连接意图：独立于原理图和设计代码写下的功能性连接断言，门禁（netlist 检查）逐条核对 KiCad 导出的网表。
+# 写法见 pcbkit/intent.py。每条都应能追溯到 SPEC 的需求或数据手册的典型应用。
+
+# [[connect]]
+# name = "LDO 输入接 VBUS"
+# pins = ["J1.A4", "U1.3"]
+# net = "VBUS"
+
+# [[isolate]]
+# name = "USB 数据线不与电源相连"
+# pins = ["J1.A6", "J1.A4"]
+
+# [parts]
+# required = ["U1", "J1"]
+# dnp = []

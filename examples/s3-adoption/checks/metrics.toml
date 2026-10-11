@@ -1,0 +1,230 @@
+# S3 review metrics: checks/thresholds.json of v0.2.1 rewritten as declarative pcbkit metrics.
+# Values are the v0.2/v0.2.1 measurements ("no regression"); loosening needs a reason in the PR.
+
+[[metric]]
+id = "in1_tracks"
+kind = "tracks_on_layer"
+layer = "In1.Cu"
+eq = 0
+why = "In1 是完整 GND 平面，不允许走线"
+
+[[metric]]
+id = "in1_gnd_single_piece"
+kind = "zone_islands"
+net = "GND"
+layer = "In1.Cu"
+eq = 1
+why = "In1 地平面不能被切碎（新增，v0.2.1 实测 1 块）"
+
+[[metric]]
+id = "antenna_area_non_rf_items"
+kind = "items_in_area"
+area = "Antenna keepout"
+allow_nets = ["RF_ANT", "LNA_IN", "RF_SHUNT"]
+eq = 0
+why = "天线净空区只允许 RF 馈线"
+
+[[metric]]
+id = "rf_layers"
+kind = "net_layers"
+nets = ["RF_ANT", "LNA_IN", "RF_SHUNT"]
+eq = {"RF_ANT" = ["F.Cu"], "LNA_IN" = ["F.Cu"], "RF_SHUNT" = ["F.Cu"]}
+why = "RF 链只在表层，不换层"
+
+[[metric]]
+id = "rf_length_mm"
+kind = "net_length_mm"
+nets = ["RF_ANT", "LNA_IN", "RF_SHUNT"]
+sum = true
+max = 11.0
+why = "RF 链长度不比 v0.2（10.99 mm）变长"
+
+[[metric]]
+id = "C9_to_U1pin1_mm"
+kind = "pad_distance_mm"
+a = "C9.2"
+b = "U1.1"
+max = 1.2
+why = "LNA 匹配电容紧贴 U1 pin 1"
+
+[[metric]]
+id = "side_differs_from_original"
+kind = "script"
+path = "gen/check_v02.py"
+key = "side_differs_from_original"
+eq = []
+why = "器件面别与原板一致（项目脚本，依赖装配锚点）"
+
+[[metric]]
+id = "sides"
+kind = "footprint_sides"
+eq = {"F" = 159, "B" = 43}
+why = "正反面器件数不变"
+
+[[metric]]
+id = "moved_more_than_0p6mm"
+kind = "moved_from"
+anchors = "data/assembly-anchors.json"
+origin = [100.0, 99.98]
+tolerance_mm = 0.6
+keys_subset = ["C13", "CP6", "CP7", "H1", "J1", "Key1", "Key2", "RP3", "RP4"]
+why = "偏离原板位置 >0.6 mm 的器件不增加"
+
+[[metric]]
+id = "via_sizes"
+kind = "via_sizes"
+keys_subset = ["0.3/0.15", "0.45/0.2"]
+each_max = {"0.3/0.15" = 13}
+why = "只用两种过孔规格；0.3/0.15 小孔只用于 U1 出线（≤ 13）"
+
+[[metric]]
+id = "usb_length_mm"
+kind = "net_length_mm"
+nets = ["USB_P", "USB_N"]
+each_max = {"USB_P" = 16.0, "USB_N" = 16.0}
+why = "USB 对就近走线"
+
+[[metric]]
+id = "usb_vias"
+kind = "net_vias"
+nets = ["USB_P", "USB_N"]
+each_max = {"USB_P" = 3, "USB_N" = 4}
+why = "USB 换层不增加"
+
+[[metric]]
+id = "ep_vias_U1"
+kind = "vias_in_pad"
+pad = "U1.57"
+min = 9
+why = "EP 散热/接地过孔不减少"
+
+[[metric]]
+id = "ep_vias_UP1"
+kind = "vias_in_pad"
+pad = "UP1.41"
+min = 9
+why = "EP 散热/接地过孔不减少"
+
+[[metric]]
+id = "ep_vias_U8"
+kind = "vias_in_pad"
+pad = "U8.33"
+min = 9
+why = "EP 散热/接地过孔不减少"
+
+[[metric]]
+id = "ep_vias_U6"
+kind = "vias_in_pad"
+pad = "U6.21"
+min = 3
+why = "EP 散热/接地过孔不减少"
+
+[[metric]]
+id = "ep_vias_U2"
+kind = "vias_in_pad"
+pad = "U2.9"
+min = 2
+why = "EP 散热/接地过孔不减少"
+
+[[metric]]
+id = "min_width_mm"
+kind = "min_track_width_mm"
+nets = ["LX1", "VCC3V3", "VSYS", "VBUS", "VBAT1", "BAT_NEG", "PA_OUT_P", "PA_OUT_N", "SPK_P", "SPK_N"]
+each_min = {"LX1" = 0.3, "VCC3V3" = 0.2, "VSYS" = 0.2, "VBUS" = 0.2, "VBAT1" = 0.2, "BAT_NEG" = 0.2, "PA_OUT_P" = 0.35, "PA_OUT_N" = 0.35, "SPK_P" = 0.3, "SPK_N" = 0.3}
+why = "电源、开关节点与喇叭线最小线宽不变细"
+
+[[metric]]
+id = "dec_U1_2_C20"
+kind = "decoupling_mm"
+pin = "U1.2"
+cap = "C20"
+max = 1.91
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_U1_20_C13"
+kind = "decoupling_mm"
+pin = "U1.20"
+cap = "C13"
+max = 1.33
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_U1_29_C4"
+kind = "decoupling_mm"
+pin = "U1.29"
+cap = "C4"
+max = 4.04
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_U1_55_C2"
+kind = "decoupling_mm"
+pin = "U1.55"
+cap = "C2"
+max = 2.37
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_U1_56_C1"
+kind = "decoupling_mm"
+pin = "U1.56"
+cap = "C1"
+max = 2.51
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_UP1_23_CP3"
+kind = "decoupling_mm"
+pin = "UP1.23"
+cap = "CP3"
+max = 4.18
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_UP1_33_CP8"
+kind = "decoupling_mm"
+pin = "UP1.33"
+cap = "CP8"
+max = 4.0
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_U6_11_C52"
+kind = "decoupling_mm"
+pin = "U6.11"
+cap = "C52"
+max = 2.1
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_U8_22_C105"
+kind = "decoupling_mm"
+pin = "U8.22"
+cap = "C105"
+max = 1.68
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_U8_23_C106"
+kind = "decoupling_mm"
+pin = "U8.23"
+cap = "C106"
+max = 1.43
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_U8_24_C101"
+kind = "decoupling_mm"
+pin = "U8.24"
+cap = "C101"
+max = 1.7
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"
+
+[[metric]]
+id = "dec_U7_6_C56"
+kind = "decoupling_mm"
+pin = "U7.6"
+cap = "C56"
+max = 1.88
+why = "去耦电容到电源脚的距离不比 v0.2 差（容差 0.05 mm）"

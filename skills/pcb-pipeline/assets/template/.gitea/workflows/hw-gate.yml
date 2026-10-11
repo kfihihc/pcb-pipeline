@@ -1,0 +1,50 @@
+# Merge gate (Gitea/Forgejo Actions; GitHub Actions syntax: copy to .github/workflows/ for GitHub).
+# Same checks locally: python3 pcbkit/gate.py
+name: hw-gate
+on: [push, pull_request]
+
+jobs:
+  gate:
+    runs-on: ubuntu-latest
+    container:
+      image: kicad/kicad:{{kicad}}       # same KiCad as the design machine (pcb.toml [project].kicad)
+      options: --user root
+    steps:
+      - name: Job tools (python3, git, node for actions; pipx/uv only for code-first designs)
+        run: apt-get update && apt-get install -y --no-install-recommends python3 git nodejs ca-certificates pipx
+      - uses: actions/checkout@v4
+      - name: KiCad library tables
+        run: mkdir -p ~/.config/kicad/10.0 && cp -n /usr/share/kicad/template/*-lib-table ~/.config/kicad/10.0/ || true
+      - name: uv for the design code (reproduce check)
+        if: hashFiles('pyproject.toml') != ''
+        run: pipx install uv && echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Gate (ERC, DRC + parity, rules canary, zones, netlist intent, metrics, sim, reproduce)
+        run: python3 pcbkit/gate.py --out reports
+      - uses: actions/upload-artifact@v3   # v3: supported by Gitea Actions
+        if: always()
+        with:
+          name: gate-reports
+          path: reports/
+
+  release:
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: gate
+    runs-on: ubuntu-latest
+    container:
+      image: kicad/kicad:{{kicad}}
+      options: --user root
+    steps:
+      - run: apt-get update && apt-get install -y --no-install-recommends python3 git nodejs ca-certificates pipx
+      - uses: actions/checkout@v4
+      - run: mkdir -p ~/.config/kicad/10.0 && cp -n /usr/share/kicad/template/*-lib-table ~/.config/kicad/10.0/ || true
+      - if: hashFiles('pyproject.toml') != ''
+        run: pipx install uv && echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - name: Tools for the optional outputs ([outputs] in pcb.toml; needed when panel = "self")
+        if: hashFiles('pyproject.toml') != ''
+        run: uv sync --group extras || echo "no extras group, so optional outputs are skipped (see README.txt of the package)"
+      - name: Fabrication package (runs the gate again; refuses on failure)
+        run: python3 pcbkit/release.py
+      - uses: actions/upload-artifact@v3
+        with:
+          name: release-package
+          path: release/

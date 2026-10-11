@@ -1,0 +1,87 @@
+# GCT USB4125-GF-A-0190 facts. Source: GCT drawing USB4125, revision A3 (2022-11-22), 2 pages, vector only:
+# read from rendered page images (datasheet.py render), so every value was checked on the image.
+
+[part]
+mpn = "USB4125-GF-A-0190"
+manufacturer = "GCT"
+lcsc = "C5246813"
+datasheet = "datasheet.pdf"
+revision = "A3 (2022-11-22)"
+sha256 = "372858eec86cc03f0e4fdb8d24e9d5159d81840bc5b190909cbbb31156c84014"
+
+[kicad]
+symbol = "Connector:USB_C_Receptacle_PowerOnly_6P"
+footprint = "Connector_USB:USB_C_Receptacle_GCT_USB4125-xx-x-0190_6P_TopMnt_Horizontal"
+
+[[pin]]
+number = "A5"
+name = "CC1"
+type = "bidirectional"
+page = 1
+
+[[pin]]
+number = "A9"
+name = "VBUS"
+type = "passive"
+page = 1
+
+[[pin]]
+number = "A12"
+name = "GND"
+type = "passive"
+page = 1
+
+[[pin]]
+number = "B5"
+name = "CC2"
+type = "bidirectional"
+page = 1
+
+[[pin]]
+number = "B9"
+name = "VBUS"
+type = "passive"
+page = 1
+
+[[pin]]
+number = "B12"
+name = "GND"
+type = "passive"
+page = 1
+
+[[pin]]
+number = "SH"
+name = "SHIELD"
+type = "passive"
+page = 1
+
+[[abs_max]]
+param = "Voltage rating"
+max = 20
+unit = "V DC"
+page = 1
+
+[[abs_max]]
+param = "Current, VBUS pins collectively"
+max = 3.0
+unit = "A"
+page = 1
+
+[[recommended]]
+param = "Operating temperature"
+min = -30
+max = 85
+unit = "C"
+page = 1
+
+[[layout]]
+text = "Recommended PCB layout: 6 signal pads at 0.50/0.60 mm pitch groups, 4 shell slots 0.60 x 1.70 mm; the KiCad footprint for the -0190 variant follows it"
+page = 1
+
+[[caveat]]
+text = "The recommended layout is drawn for a 1.00 mm board; the -0190 suffix means 1.90 mm shell stakes for thicker boards. Confirm 1.6 mm compatibility with GCT before ordering."
+page = 1
+
+[[caveat]]
+text = "CC pins mate after VBUS and GND (mating sequence second); A5 is rated 0.25 A, B5 1.25 A."
+page = 1

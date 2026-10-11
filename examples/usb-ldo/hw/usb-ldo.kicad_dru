@@ -1,0 +1,4 @@
+(version 1)
+(rule "VBUS to other copper"
+  (condition "A.NetName == 'VBUS' && B.NetName != 'VBUS' && !(A.Type == 'Pad' && B.Type == 'Pad')")
+  (constraint clearance (min 0.3mm)))

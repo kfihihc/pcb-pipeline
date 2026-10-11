@@ -1,0 +1,65 @@
+# Simulation benches (pcbkit/sim.py; gate check "sim"). Limits come from datasheets (page cited) or SPEC.
+
+[[bench]]
+id = "usb_hotplug"
+title = "USB hot-plug overshoot at the LDO input (R-03)"
+deck = "usb_hotplug.cir"
+params = { L_CABLE = "1u", R_CABLE = "0.15", C_IN = "10u" }
+measures = ["tran vin_peak MAX v(vin)", "tran vin_end FIND v(vin) AT=55u"]
+
+[[bench.corner]]
+name = "derated"
+C_IN = "7u"
+why = "DC-bias derating of a 25 V X5R 0805 at 5 V, assumed -30 %: confirm with the Samsung characteristic data"
+
+[[bench.corner]]
+name = "derated_hard"
+C_IN = "5u"
+why = "bounding case: -50 %"
+
+[[bench.corner]]
+name = "short_cable"
+L_CABLE = "0.3u"
+R_CABLE = "0.08"
+why = "short, thick cable: less damping, higher ringing frequency"
+
+[[bench.assert]]
+measure = "vin_peak"
+max = 30.0
+why = "HT7533-1 input voltage max 30 V (Rev. 2.30 p.5); absolute maximum 33 V (p.2)"
+
+[[bench.assert]]
+measure = "vin_end"
+min = 4.75
+why = "after the transient the input settles at the USB level"
+
+[[bench]]
+id = "led_current"
+title = "Power LED current (R-04)"
+deck = "led_current.cir"
+params = { V33 = "3.3", R_LED = "1k", IS_LED = "1.18e-21" }
+measures = ["tran i_led FIND i(Vm) AT=9u"]
+
+[[bench.corner]]
+name = "low_vf_high_v"
+V33 = "3.399"
+R_LED = "990"
+IS_LED = "7.5e-19"
+why = "VOUT max 3.399 V (HT7533-1 p.5), R3 -1 %, VF bin 1.8 V at 20 mA (KT-0603R p.3)"
+
+[[bench.corner]]
+name = "high_vf_low_v"
+V33 = "3.201"
+R_LED = "1010"
+IS_LED = "1.9e-24"
+why = "VOUT min 3.201 V, R3 +1 %, VF bin 2.4 V at 20 mA"
+
+[[bench.assert]]
+measure = "i_led"
+min = 0.5e-3
+why = "R-04: visible indicator"
+
+[[bench.assert]]
+measure = "i_led"
+max = 5e-3
+why = "R-04: below 5 mA (LED DC maximum 25 mA, p.3)"

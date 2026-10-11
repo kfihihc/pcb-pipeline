@@ -1,0 +1,68 @@
+# 项目指标（pcbkit/metrics.py；门禁 metrics）。阈值来自 SPEC、数据手册或上一版实测，只许更严。
+
+[[metric]]
+id = "dec_vin"
+kind = "decoupling_mm"
+pin = "U1.2"
+cap = "C1"
+max = 3.0
+why = "SPEC 3 / HT7533-1 p.12: input capacitor next to VIN"
+
+[[metric]]
+id = "dec_vout"
+kind = "decoupling_mm"
+pin = "U1.3"
+cap = "C2"
+max = 3.0
+why = "SPEC 3 / HT7533-1 p.12: output capacitor next to VOUT"
+
+[[metric]]
+id = "vbus_min_width"
+kind = "min_track_width_mm"
+net = "VBUS"
+ignore_shorter_mm = 0.5
+min = 0.4
+why = "SPEC 3: VBUS >= 0.4 mm; neck-downs shorter than 0.5 mm into the USB-C pads are allowed"
+
+[[metric]]
+id = "v3v3_min_width"
+kind = "min_track_width_mm"
+net = "+3V3"
+ignore_shorter_mm = 0.5
+min = 0.3
+why = "3V3 supply to the header carries up to 50 mA (R-02); keep it wider than signals"
+
+[[metric]]
+id = "gnd_islands_front"
+kind = "zone_islands"
+net = "GND"
+layer = "F.Cu"
+max = 2
+why = "front ground pour may be cut by the VBUS/3V3 routes into at most two pieces, each tied to the back pour"
+
+[[metric]]
+id = "gnd_islands_back"
+kind = "zone_islands"
+net = "GND"
+layer = "B.Cu"
+eq = 1
+why = "back ground pour is the return plane: one piece"
+
+[[metric]]
+id = "vias"
+kind = "via_sizes"
+keys_subset = ["0.6/0.3", "0.8/0.4"]
+why = "only the net-class via sizes (layout/board.toml)"
+
+[[metric]]
+id = "vbus_vias"
+kind = "net_vias"
+net = "VBUS"
+max = 3
+why = "change 0001 / D-0005: one via behind each USB-C VBUS pad and one to the input capacitor; no more"
+
+[[metric]]
+id = "sides"
+kind = "footprint_sides"
+eq = { F = 9, B = 0 }
+why = "single-sided assembly (cheapest JLC option)"

@@ -1,0 +1,16 @@
+# 项目指标：DRC 查不出、但审查要管的数值（pcbkit/metrics.py 计算，门禁 metrics 检查）。
+# 每条一个 id、一种 kind、至多一个判据（eq / min / max / approx+tol / keys_subset / each_max / each_min）和 why。
+# 原则：阈值取自需求、数据手册或上一版实测，只许更严；放宽要在 docs/DECISIONS.md 写理由。
+
+[[metric]]
+id = "via_sizes"
+kind = "via_sizes"
+why = "过孔规格清单，供审查；需要限制时加 keys_subset"
+
+# [[metric]]
+# id = "dec_u1_vin"
+# kind = "decoupling_mm"
+# pin = "U1.1"
+# cap = "C1"
+# max = 2.0
+# why = "LDO 输入电容紧靠 VIN（数据手册 p.x 布局建议）"

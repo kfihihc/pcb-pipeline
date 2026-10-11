@@ -1,0 +1,19 @@
+# 仿真基准：每个基准是一个能独立运行的 SPICE 文件 + 参数、角点和断言（pcbkit/sim.py；门禁 sim 检查）。
+# 断言的阈值来自数据手册（写页码）或需求编号；角点覆盖器件公差、温度和 MLCC 直流偏压降额。
+
+# [[bench]]
+# id = "usb_hotplug"
+# title = "USB 热插拔时 LDO 输入端过冲"
+# deck = "usb_hotplug.cir"
+# params = { L_CABLE = "1u", C_IN = "10u" }
+# measures = ["tran vin_peak MAX v(vin)"]
+#
+# [[bench.corner]]
+# name = "derated"
+# C_IN = "4u"
+# why = "10 µF/10 V 0603 X5R 在 5 V 偏压下约剩 40 %"
+#
+# [[bench.assert]]
+# measure = "vin_peak"
+# max = 6.0
+# why = "LDO VIN 绝对最大值（数据手册 p.x）"

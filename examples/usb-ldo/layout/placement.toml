@@ -1,0 +1,76 @@
+# 有意固定的摆位（pcbkit/place.py）。原点为板框左上角，单位 mm，y 向下。
+# 尺寸依据：各封装庭院与焊盘位置（KiCad 10 库），器件之间留 >= 0.1 mm 庭院间隙。
+origin = "outline"
+
+[[part]]
+ref = "J1"
+at = [2.825, 9.0]
+rot = 270
+side = "F"
+lock = true
+why = "R-06: USB-C on the left edge; at 270 deg the mouth faces left and the footprint's PCB-edge mark (local y 2.825) lands on the outline"
+
+[[part]]
+ref = "J2"
+at = [22.5, 6.46]
+rot = 0
+side = "F"
+lock = true
+why = "R-05/R-06: 1x3 header on the right edge, pins at y 6.46/9.0/11.54"
+
+[[part]]
+ref = "U1"
+at = [14.0, 8.0]
+rot = 90
+side = "F"
+lock = false
+why = "pins face down: GND x12.5, VIN x14.0, VOUT x15.5 (y 9.95); input from the left, output to the right"
+
+[[part]]
+ref = "C1"
+at = [13.0, 12.0]
+rot = 180
+side = "F"
+lock = false
+why = "SPEC 3: input capacitor under VIN, VBUS pad 2.1 mm from U1 pin 2, GND pad 2.1 mm from pin 1 (datasheet p.12)"
+
+[[part]]
+ref = "C2"
+at = [16.8, 12.0]
+rot = 0
+side = "F"
+lock = false
+ref_offset = [0.0, 1.6]
+why = "SPEC 3: output capacitor under VOUT, about 2.1 mm from U1 pin 3 (datasheet p.12)"
+
+[[part]]
+ref = "R1"
+at = [9.0, 5.5]
+rot = 90
+side = "F"
+lock = false
+why = "CC1 pull-down next to J1 (A5 at y 8.5)"
+
+[[part]]
+ref = "R2"
+at = [9.0, 12.5]
+rot = 270
+side = "F"
+lock = false
+why = "CC2 pull-down next to J1 (B5 at y 9.5)"
+
+[[part]]
+ref = "R3"
+at = [16.0, 3.0]
+rot = 0
+side = "F"
+lock = false
+why = "LED series resistor, +3V3 on the left pad"
+
+[[part]]
+ref = "D1"
+at = [19.2, 3.0]
+rot = 180
+side = "F"
+lock = false
+why = "power LED near the top edge, anode towards R3"

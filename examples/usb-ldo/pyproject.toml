@@ -1,0 +1,25 @@
+[project]
+name = "usb-ldo"
+version = "0.1.0"
+description = "USB-C 3.3 V LDO demo: design code, checks and tools"
+requires-python = ">=3.11"
+# pcbkit/ (gate, metrics, sync, sim, release) needs only KiCad's pcbnew and the standard library,
+# so CI runs it with the plain python3 of the KiCad image. The groups below are optional.
+dependencies = []
+
+[dependency-groups]
+design = ["skidl>=2.3"]                           # design/board.py (code-first schematic)
+routing = ["numpy>=1.22", "scipy", "shapely"]     # KiCadRoutingTools CLI
+# Optional outputs of pcbkit/extras.py ([outputs] in pcb.toml): `uv sync --group extras`. Not a default group,
+# so the CI reproduce check stays small. A later plain `uv sync` removes them again; `uv run` leaves them.
+extras = ["kikit>=1.8.1", "pcbdraw>=1.3.0", "InteractiveHtmlBom>=2.12.0"]
+
+[tool.uv]
+package = false
+default-groups = ["design"]
+# pcbnew is compiled for the system Python, so the environment must use it and uv must never download one.
+python-preference = "only-system"
+python-downloads = "never"
+# InteractiveHtmlBom declares wxPython, which only its settings dialog uses and which does not build from source
+# here. pcbkit runs it headless (INTERACTIVE_HTML_BOM_NO_DISPLAY), so the dependency is dropped.
+override-dependencies = ["wxpython; sys_platform == 'never'"]

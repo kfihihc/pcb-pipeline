@@ -1,0 +1,53 @@
+# 拼板：KiKit 预设写成 TOML。只在 pcb.toml [outputs].panel = "self" 时使用，由 release.py 生成 fab/panel/。
+# 每一段对应 KiKit 预设的同名段（layout、tabs、cuts、framing、tooling、fiducials、text、post……），
+# 键和取值见 https://yaqwsx.github.io/KiKit/latest/panelization/cli/ ；长度写成带单位的字符串。
+# 试拼：python3 pcbkit/extras.py panel   → reports/extras/panel/（拼板、DRC 报告、正面渲染图 top.png）
+#
+# 本板（D-0006）：J1 的 USB-C 外壳伸出左边，所以两块竖排、只在上下边放连接桥，左右边空着。
+# 模板默认：两块竖排（2×1），每块的上下边各 2 个连接桥（邮票孔），左右边不放；上下工艺边带定位孔和光学点。
+# DRC 干净不代表拼对了：没有连接桥的“悬空”拼板 DRC 也干净，一定要看 top.png。
+# 板边有悬伸器件（USB-C 外壳、卡座）时：那一侧不要放连接桥，也不要朝向相邻的板，
+# 否则邮票孔会落进器件庭院（拼板 DRC 报 npth_inside_courtyard）。改完一定要看拼板 DRC 和 top.png。
+
+[layout]
+type = "grid"
+rows = 2
+cols = 1
+space = "2mm"            # 板间距
+
+[tabs]
+type = "fixed"
+vcount = 2               # 上下边的连接桥数（桥沿竖直方向伸出）
+vwidth = "3mm"
+hcount = 0               # 左右边的连接桥数（桥沿水平方向伸出）：连接器在左右边时保持 0
+hwidth = "3mm"
+
+[cuts]
+type = "mousebites"
+drill = "0.5mm"
+spacing = "0.8mm"
+offset = "0.2mm"
+
+[framing]
+type = "railstb"         # 上下工艺边；railslr 为左右，frame 为整框
+width = "5mm"
+space = "3mm"
+
+[tooling]
+type = "3hole"
+hoffset = "2.5mm"
+voffset = "2.5mm"
+size = "1.5mm"
+
+[fiducials]
+type = "3fid"
+hoffset = "5mm"
+voffset = "2.5mm"
+coppersize = "1mm"
+opening = "2mm"
+
+[post]
+millradius = "1mm"       # 内角按铣刀半径倒圆
+
+[pcbkit]
+drc_allowed = []         # 拼板特有的 DRC 例外：[{type = "...", contains = "...", why = "D-xxxx"}]；[gate].drc_allowed 也适用

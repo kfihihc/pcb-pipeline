@@ -1,0 +1,22 @@
+id = "0001"
+title = "VBUS 不得从 USB-C 外壳下穿过，线宽恢复 0.5 mm"
+stage = "routing"
+requirements = ["R-03", "R-06"]
+why = """
+首次布线（KiCadRoutingTools v0.22.1）把 J1 的 B9、A9 两个 VBUS 焊盘用 0.25 mm 细线在外壳下方（x 3.9–5.2 mm）连起来：
+- 门禁 metrics：vbus_min_width = 0.25 < 0.4（SPEC 3）；
+- 审查：金属外壳压在阻焊上，壳下走线有刮破短路的风险，DRC 不会报。
+原因是禁布区画成了整个庭院只禁过孔：焊盘后方不能打孔，两个 VBUS 焊盘中间又夹着 CC1、CC2，只能从壳下绕。
+"""
+
+[change]
+files = ["layout/board.toml", "hw/usb-ldo.kicad_pcb"]
+action = "禁布区改为外壳下方（板边到焊盘前 5.3 mm）禁走线和过孔；焊盘后方允许过孔；重新布线"
+
+[scope]                             # 版图改动只能落在这些网络和位号上
+refs = []
+nets = ["VBUS", "CC1", "CC2", "GND", "+3V3", "LED_A"]
+
+[acceptance]
+gate = "all"
+metrics = { vbus_min_width = ">= 0.4", gnd_islands_back = "== 1" }

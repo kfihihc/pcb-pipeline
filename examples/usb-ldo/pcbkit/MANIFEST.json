@@ -1,0 +1,25 @@
+{
+ "version": "0.2.0",
+ "files": {
+  "VERSION": "1f930dd1f133c1f97a94fe3acb8db34372cf4c01ffdb2b3ff4ca72f9494121e9",
+  "board_diff.py": "a3e127830f7e31dc99da98bb286dff97af5d8a23c69e047fbf071a838a9eefa5",
+  "board_setup.py": "069984249e6c307d254af754619cb4c7726d8e51d613f40f60891a1d3acb6ed8",
+  "common.py": "efec95cfe284f76816e96d32400464ff7cf1b9c10125871308c489ad5a087776",
+  "extras.py": "5df9b2248312d431e007bda43d804be3b464ae73d0ded52ddf2eba6bcbf9ba90",
+  "gate.py": "2eed3812c6e3fa8aa693dc4ed254c9d024dc0f11d9d49d57480c0dc1236d55a8",
+  "intent.py": "1aa7fae4e8f07108dd183ef97802c419b05599c147b9a8af685ac721441ef080",
+  "kicad_compat.py": "781c0b5f5e9a7e76d6ff95ffe4d75d478886b7565e5cfa307cfcf05ad223f54d",
+  "metrics.py": "423b79e776a46f4b878d909d74065acc7d7e95ea626cac22bb103e615e40953d",
+  "place.py": "616392f1645239259645ab1edb9e6de5fb6a117e91a6344b06b116c850e84785",
+  "preroute.py": "94435a80cd9bb2de8cf4083757ca2b48b979a7a85a45f96f7d552dbaf53a8bcd",
+  "release.py": "53de060f86496a466ce44ca4e1add4828aabc7e7d2c684b20c27c4cdbd608334",
+  "review.py": "4d2e9ce996120ad282b15d0ca602ef11f2427cd9d90f5c493c739e0b88406c2d",
+  "route.py": "4b54090042f55eae5965769ec44c69334af11c99923df132b383cefd360ffd92",
+  "sch_gen.py": "20a27777078d39669ab6d625ba88b975a62712ab8df5e76d1ce87138b2fd7c68",
+  "sim.py": "600a7d82ffa058e4d525e100cf56f6142bcaa5205177b2d12f54985bee997e5b",
+  "sync_pcb.py": "8cd57ec7ffb4d9833f50b28bacdb3776350eef79f6be6784eb64facc34c04e68",
+  "vendor/README.md": "4ada26e9f0b011ce8a6fe551a01bb318d6c325b45185b7431cb1e69c6f4dd9b5",
+  "vendor/kicanvas.LICENSE.md": "a6cfd0ba995f0f74cc557b6f80bd235f35e760d1e8ca0c61cf8e3a0348bcb170",
+  "vendor/kicanvas.js": "ca910f25276c3efb9aacb3a5d6341d4d9af4736d4c875fb0440d2cc856865ab7"
+ }
+}

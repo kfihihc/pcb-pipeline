@@ -1,0 +1,10 @@
+* Power LED current from +3V3 through R3 (R-04)
+.param V33=3.3 R_LED=1k IS_LED=1.18e-21
+V33 v33 0 DC {V33}
+R3 v33 a {R_LED}
+Vm a a1 0
+D1 a1 0 LEDR
+* red LED fitted to KT-0603R: VF 1.8-2.4 V at 20 mA (datasheet p.3); N and RS are typical for red InGaAlP
+.model LEDR D(IS={IS_LED} N=1.8 RS=2)
+.tran 1u 10u
+.end

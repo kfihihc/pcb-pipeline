@@ -1,0 +1,11 @@
+# Routing settings for pcbkit/route.py (KiCadRoutingTools, pinned release).
+router = "krt"
+krt = "~/.cache/pcb-pipeline/KiCadRoutingTools-v0.22.1"
+nets = ["*"]
+track_width = 0.25
+clearance = 0.2
+via_size = 0.6
+via_drill = 0.3
+board_edge_clearance = 0.3
+power_nets = { VBUS = 0.5, "+3V3" = 0.4, GND = 0.5 }   # SPEC 3: VBUS >= 0.4 mm
+net_clearances = { VBUS = 0.3 }                        # mirrors the "VBUS to other copper" rule in hw/usb-ldo.kicad_dru

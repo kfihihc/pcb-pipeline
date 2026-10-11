@@ -1,0 +1,35 @@
+# pcb-pipeline adoption of the S3 AMOLED replica (/home/moyu/idea/s3-amoled-175-kicad), KiCad 10.0.6.
+# Copy pcb.toml and checks/metrics.toml into the S3 repository root and vendor pcbkit/ with
+#   new_project.py <s3> --adopt --pcb s3-amoled-175.kicad_pcb --sch s3-amoled-175.kicad_sch --name s3-amoled-175
+# (it keeps existing files), then run python3 pcbkit/gate.py. Verified on a copy, 2026-10-10.
+
+[project]
+name = "s3-amoled-175"
+title = "ESP32-S3-Touch-AMOLED-1.75C replica"
+revision = "0.2.1"
+kicad = "10.0.6"
+license = "Apache-2.0"               # derived from Waveshare (NOTICE.md)
+pcb = "s3-amoled-175.kicad_pcb"
+sch = "s3-amoled-175.kicad_sch"
+
+[design]
+mode = "code"                        # gen/build.py writes the schematic
+generate = [
+  "python3 gen/build.py",
+  "kicad-cli sch export netlist --format kicadxml -o validation/netlist.xml s3-amoled-175.kicad_sch",
+  "python3 gen/validate.py",
+]
+reproduce_ignore = ["validation/netlist.xml"]   # carries the export time
+
+[gate]
+allow_unrouted = false
+metrics = "checks/metrics.toml"
+erc_allowed = [
+  {type = "pin_to_pin", items = ["Symbol #FLG0201 Pin 1 [Power output, Line]", "Symbol U3 Pin 2 [SDX, Bidirectional, Line]"], why = "source design ties U3 (QMI8658) SDX to VCC3V3; the auxiliary I2C must stay disabled"},
+  {type = "pin_to_pin", items = ["Symbol #FLG0201 Pin 1 [Power output, Line]", "Symbol U3 Pin 3 [SCX, Bidirectional, Line]"], why = "source design ties U3 (QMI8658) SCX to VCC3V3; the auxiliary I2C must stay disabled"},
+]
+zone_fill_tolerance_mm2 = 0.01
+
+[bom]
+required_fields = ["LCSC"]           # the replica records LCSC numbers; MPN is filled for key parts only
+exempt = [{ref = "H3", why = "speaker on 30 mm leads, hand-soldered; no LCSC part (found by the pcbkit BOM check)"}]

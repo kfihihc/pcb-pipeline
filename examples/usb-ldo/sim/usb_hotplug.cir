@@ -1,0 +1,13 @@
+* USB hot-plug: 5.25 V source through the cable into C1 at the HT7533-1 input (R-03)
+.param L_CABLE=1u R_CABLE=0.15 C_IN=10u ESR_IN=5m R_LOAD=100
+* source steps to 5.25 V (USB maximum) in 10 ns: a hard plug-in
+Vsrc src 0 PWL(0 0 10n 5.25 1 5.25)
+Rc src n1 {R_CABLE}
+Lc n1 vin {L_CABLE}
+* C1: 10 uF 25 V X5R 0805 (CL21A106KAYNNNE), ESR of a ceramic capacitor
+Cin vin n2 {C_IN}
+Resr n2 0 {ESR_IN}
+* the regulator input seen as a resistive load: 50 mA at 5 V (R-02)
+Rload vin 0 {R_LOAD}
+.tran 5n 60u
+.end

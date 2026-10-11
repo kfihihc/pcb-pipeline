@@ -1,0 +1,44 @@
+# 工程清单：pcbkit 的所有工具（门禁、同步、仿真、发布）和 pcb-* 技能都从这里读取文件位置与配置。
+# 路径相对于本文件所在目录。改门禁配置（放宽阈值、加例外）必须在 docs/DECISIONS.md 写明理由。
+
+[project]
+name = "{{name}}"
+title = "{{title}}"
+revision = "0.1.0"                    # 工程样 0.x，可量产从 1.0 起；发布时打 git 标签 v<revision>
+kicad = "{{kicad}}"                   # 与 CI 镜像 kicad/kicad:<版本> 一致
+license = "{{license}}"
+pcb = "hw/{{name}}.kicad_pcb"
+sch = "hw/{{name}}.kicad_sch"
+
+[design]
+mode = "{{mode}}"                     # code：连接关系以 design/ 下的代码为准，原理图是生成物；schematic：以 .kicad_sch 为准
+generate = [{{generate}}]             # 在副本里重跑这些命令，必须不改变任何已提交文件（门禁 reproduce）
+reproduce_ignore = []
+intent = "design/intent.toml"         # 连接意图断言（门禁 netlist）
+
+[gate]
+allow_unrouted = true                 # 布线完成后改为 false
+metrics = "checks/metrics.toml"
+sim = "sim/benches.toml"
+erc_allowed = []                      # [{type = "...", items = ["..."], why = "..."}]
+drc_allowed = []                      # [{type = "...", contains = "...", why = "..."}]；不允许为过检关规则
+extra_pads_allowed = []               # ["J1.S1"]：封装上有、符号上没有的焊盘（如外壳接地脚）
+zone_fill_tolerance_mm2 = 0.01
+skip = []                             # 暂不运行的检查，写明原因后再加
+
+[bom]
+required_fields = ["MPN", "LCSC"]     # 每个装配器件必须填写的符号字段
+parts = "parts/parts.csv"             # 选料登记表：原理图里出现的 MPN 必须先在这里登记
+register_key = "MPN"
+exempt = []                           # [{ref = "H1", why = "手工焊接，不走贴片"}]
+
+[outputs]
+# 可选输出（pcbkit/extras.py），都不进门禁。工具没装时跳过并提示，不改变发布包状态。
+# ibom、pcbdraw、panel 需要 `uv sync --group extras`；emc 需要 kicad-happy（pcb-review 技能的 scripts/setup_kicad_happy.sh）。
+ibom = true          # 交互式 BOM：发布包 assembly/ibom.html，审查包 ibom.html
+kicanvas = true      # 浏览器看原理图和 PCB：发布包 review/kicanvas/，审查包 kicanvas/（要用 HTTP 打开，见其中 README.txt）
+pcbdraw = true       # 审查包 pcbdraw-top.svg、pcbdraw-bottom.svg（文档用的风格化板图）
+emc = true           # 审查包 emc.md、emc.json（kicad-happy 规则式 EMC 预检，只作线索）
+# emc_standard = "cispr-class-b"   # kicad-happy --standard，默认 fcc-class-b；也可设 emc_market = "eu"
+panel = "ask"        # 拼板。"self"：用 KiKit 按 layout/panel.toml 自己拼，拼板 DRC 必须干净，发布包加 fab/panel/；
+                     # "fab"：交给板厂代拼或按单板下单，发布包只有单板；"ask"：还没定，发布时提示。改之前先问用户，写进 DECISIONS

@@ -1,0 +1,49 @@
+# 板框、层数、制造下限、网络类与铺铜（pcbkit/board_setup.py）。
+# 制造下限取自嘉立创双层板标准工艺（https://jlcpcb.com/capabilities/pcb-capabilities，2026-10-10 查阅），
+# 留有余量：最小线宽/间距 0.127 mm 取 0.15 mm，过孔 0.3 mm 孔 / 0.6 mm 焊盘。
+
+[board]
+layers = 2
+thickness_mm = 1.6
+outline = { shape = "rect", width = 25, height = 18, corner_radius = 1.0, origin = [100, 100] }
+
+[rules]
+min_track_width = 0.15
+min_clearance = 0.15
+min_via_diameter = 0.6
+min_through_hole = 0.3
+min_hole_to_hole = 0.5
+min_copper_edge_clearance = 0.3
+min_hole_clearance = 0.25
+
+[[netclass]]
+name = "Default"
+track_width = 0.25
+clearance = 0.2
+via_diameter = 0.6
+via_drill = 0.3
+
+[[netclass]]
+name = "POWER"                   # SPEC 3: VBUS >= 0.4 mm
+track_width = 0.5
+clearance = 0.2
+via_diameter = 0.8
+via_drill = 0.4
+patterns = ["VBUS", "+3V3", "GND"]
+
+[[zone]]
+name = "GND pour"
+net = "GND"
+layers = ["F.Cu", "B.Cu"]
+clearance = 0.25
+min_width = 0.25
+priority = 0
+thermal_gap = 0.4
+thermal_spoke = 0.4
+
+[[keepout]]
+name = "J1 shell"                # change 0001: no tracks or vias under the USB-C metal shell (top side)
+rect = [0.0, 3.5, 5.3, 14.5]     # outline mm: board edge to just before the signal pads (x 5.35)
+layers = ["F.Cu"]
+no_tracks = true
+no_vias = true

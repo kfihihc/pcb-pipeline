@@ -1,0 +1,49 @@
+# Hubei KENTO KT-0603R red 0603 LED. Source: LCSC-hosted manufacturer sheet (11 pages, Chinese/English).
+
+[part]
+mpn = "KT-0603R"
+manufacturer = "Hubei KENTO"
+lcsc = "C2286"
+datasheet = "datasheet.pdf"
+sha256 = "a3bac1cc9c59cb306ad03512945cce12c87bb54252abc223b796e1d20d41d4a1"
+
+[kicad]
+symbol = "Device:LED"
+footprint = "LED_SMD:LED_0603_1608Metric"
+
+[[abs_max]]
+param = "DC forward current"
+max = 25
+unit = "mA"
+page = 3
+
+[[abs_max]]
+param = "Power dissipation"
+max = 40
+unit = "mW"
+page = 3
+
+[[abs_max]]
+param = "Reverse voltage"
+max = 5
+unit = "V"
+page = 3
+
+[[characteristic]]
+param = "Forward voltage"
+min = 1.8
+max = 2.4
+unit = "V"
+conditions = "IF = 20 mA, Ta = 25 C (bins VE..VJ, +-0.05 V)"
+page = 3
+
+[[recommended]]
+param = "Operating temperature"
+min = -40
+max = 85
+unit = "C"
+page = 3
+
+[[caveat]]
+text = "Numbering is opposite to KiCad: the drawing marks 1 = anode (+) and 2 = cathode (-, green corner mark), while KiCad Device:LED and LED_0603_1608Metric use pad 1 = cathode. Polarity follows the cathode mark: check it on every LED in the JLC placement preview."
+page = 2

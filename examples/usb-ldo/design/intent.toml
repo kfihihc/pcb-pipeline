@@ -1,0 +1,47 @@
+# 连接意图：独立于 design/board.py 写下的功能性连接断言（门禁 netlist 检查）。
+# 依据：SPEC 需求编号与数据手册页码（data/parts/<MPN>/facts.toml）。
+
+[[connect]]
+name = "cc1_pulldown"            # R-01, D-0001
+pins = ["J1.A5", "R1.1"]
+net = "CC1"
+
+[[connect]]
+name = "cc2_pulldown"            # R-01: one resistor per CC pin
+pins = ["J1.B5", "R2.1"]
+net = "CC2"
+
+[[isolate]]
+name = "cc_pins_separate"        # sharing one resistor breaks the sink detection of some sources
+pins = ["J1.A5", "J1.B5"]
+
+[[net]]
+name = "GND"                     # every ground, the USB shell and both pull-downs
+pins = ["J1.A12", "J1.B12", "J1.SH", "R1.2", "R2.2", "U1.1", "C1.2", "C2.2", "D1.1", "J2.2"]
+
+[[net]]
+name = "VBUS"                    # HT7533-1 VIN is pin 2 (datasheet p.2); C1 on the input (p.12)
+pins = ["J1.A9", "J1.B9", "U1.2", "C1.1", "J2.3"]
+
+[[net]]
+name = "+3V3"                    # VOUT is pin 3 (p.2); C2 on the output (p.12)
+pins = ["U1.3", "C2.1", "R3.1", "J2.1"]
+
+[[connect]]
+name = "led_anode_via_r3"        # KiCad Device:LED pin 2 = anode (see facts caveat on numbering)
+pins = ["R3.2", "D1.2"]
+
+[[connect]]
+name = "header_3v3"              # R-05
+pins = ["J2.1", "U1.3"]
+
+[[connect]]
+name = "header_vbus"
+pins = ["J2.3", "J1.A9"]
+
+[[isolate]]
+name = "vbus_not_3v3"
+pins = ["U1.2", "U1.3"]
+
+[parts]
+required = ["J1", "U1", "C1", "C2", "R1", "R2", "R3", "D1", "J2"]

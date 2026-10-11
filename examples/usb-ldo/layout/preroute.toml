@@ -1,0 +1,45 @@
+# Critical routes placed and locked before autorouting (pcbkit/preroute.py; change 0001).
+# Coordinates: mm from the outline's top-left corner; "REF.PAD" = pad centre.
+
+[[track]]
+net = "VBUS"
+layer = "F.Cu"
+width = 0.5
+points = ["J1.B9", [7.3, 7.48]]
+why = "B9 exits backwards, behind the USB-C pads (never under the metal shell)"
+
+[[track]]
+net = "VBUS"
+layer = "F.Cu"
+width = 0.5
+points = ["J1.A9", [7.3, 10.52]]
+why = "A9 exits backwards; CC1/CC2 leave between the two VBUS exits"
+
+[[via]]
+net = "VBUS"
+at = [7.3, 7.48]
+why = "B9 to the back-side VBUS run"
+
+[[via]]
+net = "VBUS"
+at = [7.3, 10.52]
+why = "A9 to the back-side VBUS run"
+
+[[track]]
+net = "VBUS"
+layer = "B.Cu"
+width = 0.5
+points = [[7.3, 7.48], [7.3, 13.6], [13.95, 13.6], [20.4, 13.6], "J2.3"]
+why = "joins B9 and A9 under the CC traces, then runs below the parts to C1 and the header"
+
+[[via]]
+net = "VBUS"
+at = [13.95, 13.6]
+why = "up to the input capacitor"
+
+[[track]]
+net = "VBUS"
+layer = "F.Cu"
+width = 0.5
+points = [[13.95, 13.6], "C1.1", "U1.2"]
+why = "SPEC 3: input capacitor first, then VIN (datasheet p.12)"

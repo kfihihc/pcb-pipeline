@@ -1,0 +1,11 @@
+# 有意固定的摆位：连接器、按键、安装孔、射频与电源关键器件（pcbkit/place.py 读取）。
+# 坐标原点默认为板框左上角，单位 mm；lock = true 的器件不会被布线器和后续脚本移动。每条写 why。
+origin = "outline"
+
+# [[part]]
+# ref = "J1"
+# at = [3.0, 10.0]
+# rot = 90
+# side = "F"
+# lock = true
+# why = "USB-C 在左边缘，插口朝外"

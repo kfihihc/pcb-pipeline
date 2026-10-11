@@ -1,0 +1,20 @@
+id = "0002"
+title = "pcbkit 板框原点修正：全部器件平移 25 µm，版图链重建"
+stage = "placement"
+requirements = ["R-06"]
+why = """
+place.py / preroute.py 用 GetBoardEdgesBoundingBox() 取板框左上角，包含了 0.05 mm 板框线宽的一半，
+摆位文件里的坐标因此整体偏了 0.025 mm（release 的坐标文件里 C1 = 112.975，而不是 113.0）。
+pcbkit 改为按 Edge.Cuts 线端点取原点（kicad_compat.outline_origin），然后用 layout/rebuild.sh 从文本重建版图。
+"""
+
+[change]
+files = ["pcbkit/", "hw/usb-ldo.kicad_pcb"]
+action = "更新 pcbkit；layout/rebuild.sh 重建；board_diff 对比确认只有 25 µm 平移和重新布线"
+
+[scope]
+refs = ["*"]          # 全部器件平移
+nets = ["*"]          # 全部走线重布
+
+[acceptance]
+gate = "all"
